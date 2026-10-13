@@ -1,0 +1,11 @@
+== P-04 Seguridad basica - Tue Oct  6 16:21:42 CST 2026 ==
+1. Sin token (esperado 401): 401
+2. Token falso (esperado 401): 401
+3. Empleado GET /users (esperado 403): 403
+4. Empleado POST /departments (esperado 403): 403
+5. Empleado DELETE /tickets/1 (esperado 403): 403
+6. Empleado lee ticket ajeno #152 (esperado 403): 403
+7. Inyeccion SQL en login (esperado 401): 401
+8. Registro como admin SIN autenticacion (seguro=403, vulnerable=201): 201
+9. Cookie de sesion:
+Set-Cookie: hd_auth=<token>; Max-Age=604800; Path=/; Expires=Tue, 13 Oct 2026 22:21:42 GMT; HttpOnly; SameSite=Lax

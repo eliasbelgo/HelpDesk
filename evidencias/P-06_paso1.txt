@@ -1,0 +1,8 @@
+== P-06 Paso 1: respaldo - Tue Oct  6 16:28:57 CST 2026 ==
+Registros ANTES:
+  users: 4
+  departments: 2
+  tickets: 152
+  comments: 0
+Archivo de respaldo:
+-rw-r--r--  1 eliasbelcerra  staff    27K Oct  6 16:28 evidencias/respaldo_P06.sql

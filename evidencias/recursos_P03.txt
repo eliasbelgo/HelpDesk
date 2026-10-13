@@ -1,0 +1,19 @@
+CONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O        PIDS
+363010f4235f   helpdesk-db   31.78%    58.44MiB / 3.827GiB   1.49%     21.1MB / 711MB   180kB / 89.6MB   16
+Processes: 539 total, 6 running, 533 sleeping, 3076 threads 
+2026/10/06 16:57:02
+Load Avg: 3.54, 3.59, 3.55 
+CPU usage: 42.15% user, 8.93% sys, 48.91% idle 
+SharedLibs: 241M resident, 59M data, 30M linkedit.
+MemRegions: 83 total, 3136K resident, 72M private, 1157M shared.
+PhysMem: 7451M used (1535M wired, 2963M compressor), 170M unused.
+VM: 239T vsize, 5703M framework vsize, 638611(0) swapins, 1059024(0) swapouts.
+Networks: packets: 17794501/25G in, 3476473/3342M out.
+Disks: 19975509/509G read, 5802836/141G written.
+
+PID    COMMAND          %CPU  MEM   
+36935  node             118.9 645M+ 
+36998  node             79.3  158M+ 
+36451  com.apple.Virtua 37.7  1706M 
+396    WindowServer     18.4  1145M+
+36268  com.docker.backe 15.7  100M  

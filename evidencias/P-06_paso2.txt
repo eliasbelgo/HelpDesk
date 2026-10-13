@@ -1,0 +1,11 @@
+== P-06 Paso 2: perdida y restauracion - Tue Oct  6 16:29:38 CST 2026 ==
+DROP DATABASE
+CREATE DATABASE
+Tablas despues de la perdida (debe decir que no hay relaciones):
+Did not find any relations.
+Tiempo de restauracion: 0 segundos
+Registros DESPUES:
+  users: 4
+  departments: 2
+  tickets: 152
+  comments: 0
