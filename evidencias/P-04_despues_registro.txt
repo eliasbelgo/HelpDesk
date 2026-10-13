@@ -1,0 +1,4 @@
+1. admin SIN sesión (esperado 403): 403
+2. manager SIN sesión (esperado 403): 403
+3. employee SIN sesión (esperado 201): 201
+4. admin CON sesión de admin (esperado 201): 201

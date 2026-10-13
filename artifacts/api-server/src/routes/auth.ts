@@ -4,9 +4,12 @@ import bcrypt from "bcryptjs";
 import { db, usersTable } from "@workspace/db";
 import { signAuthToken } from "../auth/jwt";
 import { AUTH_COOKIE_NAME, clearCookieOptions, cookieOptions } from "../auth/cookie";
-import { requireAuth } from "../auth/middleware";
+import { requireAuth, optionalAuth } from "../auth/middleware";
 import type { UserRole } from "../auth/types";
 import { logger } from "../lib/logger";
+import { loginLimiterPorCuenta, loginLimiterPorIp } from "../auth/rateLimit";
+
+import { loginLimiterPorCuenta, loginLimiterPorIp } from "../auth/rateLimit";
 
 const exposeAuthErrors =
   process.env.NODE_ENV !== "production" || process.env.EXPOSE_AUTH_ERRORS === "1";
@@ -17,7 +20,7 @@ function isUserRole(v: unknown): v is UserRole {
   return v === "employee" || v === "manager" || v === "admin";
 }
 
-router.post("/auth/login", async (req, res) => {
+router.post("/auth/login", loginLimiterPorCuenta, loginLimiterPorIp, async (req, res) => {
   try {
     if (!req.body || typeof req.body !== "object" || Array.isArray(req.body)) {
       res
@@ -100,7 +103,7 @@ router.post("/auth/login", async (req, res) => {
   }
 });
 
-router.post("/auth/register", async (req, res) => {
+router.post("/auth/register", optionalAuth, async (req, res) => {
   try {
     const { name, email, password, role } = req.body as {
       name?: string;
@@ -114,6 +117,11 @@ router.post("/auth/register", async (req, res) => {
     }
     if (!isUserRole(role)) {
       res.status(400).json({ error: "role inválido" });
+      return;
+    }
+    // E-01: solo un administrador autenticado puede crear cuentas con rol distinto de employee
+    if (role !== "employee" && req.authUser?.role !== "admin") {
+      res.status(403).json({ error: "Acceso no autorizado" });
       return;
     }
     if (password.length < 8) {
@@ -147,7 +155,8 @@ router.post("/auth/register", async (req, res) => {
       departmentId: user.departmentId ?? null,
     };
     const token = signAuthToken(authUser);
-    res.cookie(AUTH_COOKIE_NAME, token, cookieOptions());
+    // Si un admin crea la cuenta, no se le cambia su propia sesión
+    if (!req.authUser) res.cookie(AUTH_COOKIE_NAME, token, cookieOptions());
     res.status(201).json({ user: authUser, token });
     return;
   } catch (err) {

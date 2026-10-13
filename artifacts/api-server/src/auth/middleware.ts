@@ -37,3 +37,16 @@ export function requireRoles(...roles: UserRole[]): RequestHandler {
     next();
   };
 }
+
+/** Igual que requireAuth, pero sin rechazar: si hay un token válido llena req.authUser. */
+export const optionalAuth: RequestHandler = (req, _res, next) => {
+  const header = req.headers.authorization;
+  const bearer =
+    typeof header === "string" && header.startsWith("Bearer ") ? header.slice(7).trim() : null;
+  const cookieToken =
+    typeof req.cookies?.[AUTH_COOKIE_NAME] === "string" ? req.cookies[AUTH_COOKIE_NAME] : null;
+  const token = bearer || cookieToken;
+  const user = token ? verifyAuthToken(token) : null;
+  if (user) req.authUser = user;
+  next();
+};

@@ -6,6 +6,7 @@ import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
+if (process.env.NODE_ENV === "production") app.set("trust proxy", 1);
 
 const defaultLocalOrigins = [
   "http://localhost:5173",
