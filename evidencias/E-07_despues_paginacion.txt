@@ -1,0 +1,5 @@
+tickets devueltos por defecto (antes 152): 50
+total en la base: X-Total-Count: 152
+Access-Control-Expose-Headers: X-Total-Count
+pág. 1 (ids): [151,152,150,149,148,147,146,145,144,143]
+pág. 2 (ids): [142,141,140,139,138,137,136,135,134,133]

@@ -1,0 +1,131 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.api-server
+#1 transferring dockerfile: 1.10kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-bookworm-slim
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-bookworm-slim
+#2 DONE 0.9s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 229B done
+#4 DONE 0.0s
+
+#5 [1/9] FROM docker.io/library/node:20-bookworm-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#5 resolve docker.io/library/node:20-bookworm-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 done
+#5 DONE 0.0s
+
+#6 [2/9] WORKDIR /app
+#6 CACHED
+
+#7 [3/9] RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 71.05kB 0.0s done
+#8 DONE 0.0s
+
+#9 [4/9] COPY .npmrc package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+#9 DONE 0.0s
+
+#10 [5/9] COPY lib ./lib
+#10 DONE 0.0s
+
+#11 [6/9] COPY scripts ./scripts
+#11 DONE 0.0s
+
+#12 [7/9] COPY artifacts ./artifacts
+#12 DONE 0.2s
+
+#13 [8/9] RUN pnpm install --frozen-lockfile
+#13 0.485 Scope: all 9 workspace projects
+#13 0.572 Lockfile is up to date, resolution step is skipped
+#13 0.641 Progress: resolved 1, reused 0, downloaded 0, added 0
+#13 0.737 Packages: +516
+#13 0.737 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#13 1.290 
+#13 1.290    ╭───────────────────────────────────────────────────────────────────╮
+#13 1.290    │                                                                   │
+#13 1.290    │                Update available! 8.15.0 → 12.11.2.                │
+#13 1.290    │   Changelog: https://github.com/pnpm/pnpm/releases/tag/v12.11.2   │
+#13 1.290    │     Run "corepack prepare pnpm@12.11.2 --activate" to update.     │
+#13 1.290    │                                                                   │
+#13 1.290    │      Follow @pnpmjs for updates: https://twitter.com/pnpmjs       │
+#13 1.290    │                                                                   │
+#13 1.290    ╰───────────────────────────────────────────────────────────────────╯
+#13 1.290 
+#13 1.643 Progress: resolved 516, reused 0, downloaded 152, added 152
+#13 2.643 Progress: resolved 516, reused 0, downloaded 266, added 266
+#13 3.643 Progress: resolved 516, reused 0, downloaded 310, added 310
+#13 4.647 Progress: resolved 516, reused 0, downloaded 392, added 391
+#13 5.678 Progress: resolved 516, reused 0, downloaded 500, added 500
+#13 6.242 Progress: resolved 516, reused 0, downloaded 516, added 516, done
+#13 6.516 .../esbuild@0.25.8/node_modules/esbuild postinstall$ node install.js
+#13 6.516 .../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js
+#13 6.538 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+#13 6.546 .../esbuild@0.27.7/node_modules/esbuild postinstall$ node install.js
+#13 6.597 .../esbuild@0.18.20/node_modules/esbuild postinstall: Done
+#13 6.598 .../esbuild@0.25.8/node_modules/esbuild postinstall: Done
+#13 6.611 .../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+#13 6.640 .../esbuild@0.27.7/node_modules/esbuild postinstall: Done
+#13 6.936 
+#13 6.936 devDependencies:
+#13 6.936 + @types/node 18.19.130
+#13 6.936 + @types/react 19.1.17
+#13 6.936 + @types/react-dom 19.1.11
+#13 6.936 + prettier 3.8.3
+#13 6.936 + typescript 5.9.3
+#13 6.936 
+#13 7.042 Done in 6.8s
+#13 DONE 7.4s
+
+#14 [9/9] RUN pnpm --filter @workspace/api-server run build
+#14 0.703 
+#14 0.703 > @workspace/api-server@0.0.0 build /app/artifacts/api-server
+#14 0.703 > node ./build.mjs
+#14 0.703 
+#14 0.762 ▲ [WARNING] Cannot find base config file "../../tsconfig.base.json" [tsconfig.json]
+#14 0.762 
+#14 0.762     tsconfig.json:2:13:
+#14 0.762       2 │   "extends": "../../tsconfig.base.json",
+#14 0.762         ╵              ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#14 0.762 
+#14 0.795 ▲ [WARNING] Cannot find base config file "../../tsconfig.base.json" [tsconfig.json]
+#14 0.795 
+#14 0.795     ../../lib/db/tsconfig.json:2:13:
+#14 0.795       2 │   "extends": "../../tsconfig.base.json",
+#14 0.795         ╵              ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#14 0.795 
+#14 0.932 2 warnings
+#14 0.932 
+#14 0.932   dist/index.mjs                       2.4mb ⚠️
+#14 0.932   dist/pino-worker.mjs               152.7kb
+#14 0.932   dist/pino-file.mjs                 141.4kb
+#14 0.932   dist/pino-pretty.mjs               114.6kb
+#14 0.932   dist/thread-stream-worker.mjs        7.3kb
+#14 0.932   dist/index.mjs.map                   4.0mb
+#14 0.932   dist/pino-worker.mjs.map           256.8kb
+#14 0.932   dist/pino-file.mjs.map             229.0kb
+#14 0.932   dist/pino-pretty.mjs.map           204.0kb
+#14 0.932   dist/thread-stream-worker.mjs.map   12.0kb
+#14 0.932 
+#14 0.932 ⚡ Done in 173ms
+#14 DONE 1.0s
+
+#15 exporting to image
+#15 exporting layers
+#15 exporting layers 11.6s done
+#15 exporting manifest sha256:16ce70be50a6f4362e4ccf109a8fb3875f7a5ded317ac432e207a22975782f03 done
+#15 exporting config sha256:cadc9bcc70486f9c08f1ab85473cb4415697e7ae7add5e6615912e85a8525124 done
+#15 exporting attestation manifest sha256:df825d87d10946f9eb0246d74a873c0cab301236d9ce6db004350fc944324b6c done
+#15 exporting manifest list sha256:38151fb6a680a846168c6a1209c2c6c9eb4b18dcd6a1037abd77f9655b2f86ef done
+#15 naming to docker.io/library/helpdesk-api:latest done
+#15 unpacking to docker.io/library/helpdesk-api:latest
+#15 unpacking to docker.io/library/helpdesk-api:latest 6.3s done
+#15 DONE 18.0s

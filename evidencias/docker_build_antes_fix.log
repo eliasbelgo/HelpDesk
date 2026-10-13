@@ -1,0 +1,61 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.api-server
+#1 transferring dockerfile: 1.10kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:20-bookworm-slim
+#2 DONE 0.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 229B done
+#3 DONE 0.0s
+
+#4 [1/9] FROM docker.io/library/node:20-bookworm-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
+#4 resolve docker.io/library/node:20-bookworm-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 70.97kB 0.0s done
+#5 DONE 0.0s
+
+#6 [6/9] COPY scripts ./scripts
+#6 CACHED
+
+#7 [2/9] WORKDIR /app
+#7 CACHED
+
+#8 [3/9] RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+#8 CACHED
+
+#9 [4/9] COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+#9 CACHED
+
+#10 [5/9] COPY lib ./lib
+#10 CACHED
+
+#11 [7/9] COPY artifacts ./artifacts
+#11 CACHED
+
+#12 [8/9] RUN pnpm install --frozen-lockfile
+#12 0.524 Scope: all 9 workspace projects
+#12 0.608  ERR_PNPM_LOCKFILE_CONFIG_MISMATCH  Cannot proceed with the frozen installation. The current "settings.autoInstallPeers" configuration doesn't match the value found in the lockfile
+#12 0.608 
+#12 0.608 Update your lockfile using "pnpm install --no-frozen-lockfile"
+#12 ERROR: process "/bin/sh -c pnpm install --frozen-lockfile" did not complete successfully: exit code: 1
+------
+ > [8/9] RUN pnpm install --frozen-lockfile:
+0.524 Scope: all 9 workspace projects
+0.608  ERR_PNPM_LOCKFILE_CONFIG_MISMATCH  Cannot proceed with the frozen installation. The current "settings.autoInstallPeers" configuration doesn't match the value found in the lockfile
+0.608 
+0.608 Update your lockfile using "pnpm install --no-frozen-lockfile"
+------
+Dockerfile.api-server:19
+--------------------
+  17 |     
+  18 |     # Instalación reproducible: falla si el lockfile no coincide con los package.json
+  19 | >>> RUN pnpm install --frozen-lockfile
+  20 |     
+  21 |     # Construcción del servidor
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c pnpm install --frozen-lockfile" did not complete successfully: exit code: 1

@@ -10,14 +10,13 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
 
 # Copiamos solo los archivos necesarios de configuración
-# Eliminamos pnpm-lock.yaml de la lista para evitar errores de "not found"
-COPY package.json pnpm-workspace.yaml ./
+COPY .npmrc package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY lib ./lib
 COPY scripts ./scripts
 COPY artifacts ./artifacts
 
-# Cambiamos a 'pnpm install' sin --frozen-lockfile para que Railway genere uno nuevo
-RUN pnpm install
+# Instalación reproducible: falla si el lockfile no coincide con los package.json
+RUN pnpm install --frozen-lockfile
 
 # Construcción del servidor
 RUN pnpm --filter @workspace/api-server run build

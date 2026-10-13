@@ -18,7 +18,7 @@ export default defineConfig(async ({ mode }) => {
   const apiProxyTarget =
     env.VITE_API_PROXY_TARGET ??
     process.env.VITE_API_PROXY_TARGET ??
-    "https://help-desk-production-c1fd.up.railway.app";
+    "http://localhost:3001";
   const proxySecure = apiProxyTarget.startsWith("https:");
 
   return {

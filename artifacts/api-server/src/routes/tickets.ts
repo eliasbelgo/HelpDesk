@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { db, ticketsTable, departmentsTable, commentsTable, usersTable, type Ticket } from "@workspace/db";
-import { eq, sql, and } from "drizzle-orm";
+import { eq, sql, and, desc } from "drizzle-orm";
 import { requireAuth } from "../auth/middleware";
 import { canAccessTicket } from "../auth/access";
 
@@ -8,6 +8,10 @@ const router: IRouter = Router();
 
 const TICKET_PRIORITIES = ["low", "medium", "high", "urgent"] as const;
 type TicketPriority = (typeof TICKET_PRIORITIES)[number];
+
+/** E-07: el listado se pagina (por defecto 50 tickets, máximo 200 por petición). */
+const DEFAULT_PAGE_SIZE = 50;
+const MAX_PAGE_SIZE = 200;
 
 router.use(requireAuth);
 
@@ -37,6 +41,12 @@ router.get("/tickets", async (req, res) => {
           : and(...conditions)
         : undefined;
 
+    const limitRaw = parseInt(String(req.query.limit ?? ""), 10);
+    const offsetRaw = parseInt(String(req.query.offset ?? ""), 10);
+    const limit =
+      Number.isFinite(limitRaw) && limitRaw > 0 ? Math.min(limitRaw, MAX_PAGE_SIZE) : DEFAULT_PAGE_SIZE;
+    const offset = Number.isFinite(offsetRaw) && offsetRaw > 0 ? offsetRaw : 0;
+
     const tickets = await db
       .select({
         id: ticketsTable.id,
@@ -58,9 +68,20 @@ router.get("/tickets", async (req, res) => {
       .leftJoin(commentsTable, eq(commentsTable.ticketId, ticketsTable.id))
       .where(whereExpr)
       .groupBy(ticketsTable.id, departmentsTable.name)
-      .orderBy(ticketsTable.updatedAt);
+      .orderBy(desc(ticketsTable.updatedAt), desc(ticketsTable.id))
+      .limit(limit)
+      .offset(offset);
 
-    res.json(tickets.reverse());
+    const [{ total }] = await db
+      .select({ total: sql<number>`count(*)::int` })
+      .from(ticketsTable)
+      .where(whereExpr);
+
+    // El cuerpo sigue siendo un arreglo (compatible con el panel y la app móvil);
+    // el total de tickets que cumplen el filtro va en un encabezado.
+    res.set("X-Total-Count", String(total));
+    res.set("Access-Control-Expose-Headers", "X-Total-Count");
+    res.json(tickets);
     return;
   } catch (err) {
     req.log.error({ err }, "Failed to get tickets");

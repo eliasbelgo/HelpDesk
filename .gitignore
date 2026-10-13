@@ -124,3 +124,7 @@ buck-out/
 web-build/
 
 # @end expo-cli
+
+# Respaldos de base de datos (no se versionan)
+backup.sql
+evidencias/*.sql
